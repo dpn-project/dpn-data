@@ -27,6 +27,10 @@ def is_valid_dpn_domain(dpn_domain):
         return True
     return False
 
+@app.before_request
+def log_request_info():
+    print(f"Incoming request: {request.method} {request.path}")
+
 @app.route('/', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -52,4 +56,4 @@ def register():
     return render_template('register.html')
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=5000)
