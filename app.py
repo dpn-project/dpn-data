@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, send_file
+from flask import Flask, render_template, request, redirect, url_for, flash, send_file, jsonify
 from flask_cors import CORS
 import json
 import re
@@ -34,8 +34,10 @@ def is_valid_dpn_domain(dpn_domain):
 def log_request_info():
     print(f"Incoming request: {request.method} {request.path}")
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/', methods=['GET', 'POST', 'HEAD'])
 def register():
+    if request.method == 'HEAD':
+        return '', 200
     if request.method == 'POST':
         dpn_domain = request.form['dpn_domain']
         existing_website = request.form['existing_website']
@@ -58,8 +60,10 @@ def register():
 
     return render_template('register.html')
 
-@app.route('/domains.json')
+@app.route('/domains.json', methods=['GET', 'HEAD'])
 def get_domains():
+    if request.method == 'HEAD':
+        return '', 200
     return send_file(DOMAINS_FILE, mimetype='application/json')
 
 if __name__ == '__main__':
