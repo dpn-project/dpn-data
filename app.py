@@ -1,10 +1,13 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, send_file
+from flask_cors import CORS
 import json
 import re
 import os
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
+
+CORS(app)  # Дозволити всі CORS запити
 
 DOMAINS_FILE = 'domains.json'
 
@@ -54,6 +57,10 @@ def register():
         return redirect(url_for('register'))
 
     return render_template('register.html')
+
+@app.route('/domains.json')
+def get_domains():
+    return send_file(DOMAINS_FILE, mimetype='application/json')
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5000)
