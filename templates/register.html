@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register DPN Domain</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Register DPN Domain</h1>
+        <form method="post">
+            <div class="form-group">
+                <label for="dpn_domain">Desired DPN Domain:</label>
+                <input type="text" id="dpn_domain" name="dpn_domain" required>
+            </div>
+            <div class="form-group">
+                <label for="existing_website">Existing Website URL:</label>
+                <input type="url" id="existing_website" name="existing_website" required>
+            </div>
+            <button type="submit">Register</button>
+        </form>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+    </div>
+</body>
+</html>
